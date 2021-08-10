@@ -5,9 +5,9 @@ import {
   ISession,
   FindAuthenticationStrategyResponse,
   ISessionPersistance,
-  UserId,
 } from "@kaviar/security-bundle";
 import { Collection, ObjectID, Behaviors } from "@kaviar/mongo-bundle";
+import jwtDecode from "jwt-decode";
 
 export class SessionsCollection<T extends ISession>
   extends Collection<ISession>
@@ -28,11 +28,7 @@ export class SessionsCollection<T extends ISession>
    * @param expiresAt
    * @param data
    */
-  async newSession(
-    userId: UserId,
-    expiresAt: Date,
-    data?: any
-  ): Promise<string> {
+  async newSession(userId: any, expiresAt: Date, data?: any): Promise<string> {
     const session = {
       token: generateToken(64),
       userId,
@@ -49,9 +45,13 @@ export class SessionsCollection<T extends ISession>
   }
 
   async getSession(token: string): Promise<ISession> {
-    return this.findOne({
-      token,
-    });
+    let data :any =jwtDecode(token)
+    return {
+      userId: data.username,
+      expiresAt: new Date(data.exp),
+      token:token,
+      data
+    }
   }
 
   async deleteSession(token: string): Promise<void> {
@@ -60,7 +60,7 @@ export class SessionsCollection<T extends ISession>
     });
   }
 
-  async deleteAllSessionsForUser(userId: UserId): Promise<void> {
+  async deleteAllSessionsForUser(userId: any): Promise<void> {
     await this.deleteMany({
       userId,
     });

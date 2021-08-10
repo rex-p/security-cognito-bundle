@@ -14,7 +14,7 @@ In this bundle we're overriding the persistence layers from SecurityBundle to ma
 ## Installation
 
 ```bash
-npm i -S @kaviar/security-bundle @kaviar/security-mongo-bundle
+npm i -S @kaviar/security-bundle @kaviar-security-mongo-bundle
 ```
 
 ```js

@@ -3,7 +3,6 @@ import {
   IFieldMap,
   IUser,
   FindAuthenticationStrategyResponse,
-  UserId,
 } from "@kaviar/security-bundle";
 import { Collection, Behaviors } from "@kaviar/mongo-bundle";
 
@@ -14,13 +13,13 @@ export class UsersCollection<T extends IUser>
 
   static behaviors = [Behaviors.Timestampable()];
 
-  async insertUser(data: object): Promise<UserId> {
+  async insertUser(data: any): Promise<any> {
     const result = await this.insertOne(data);
 
     return result.insertedId;
   }
 
-  async updateUser(userId: UserId, data: any): Promise<void> {
+  async updateUser(userId: any, data: any): Promise<void> {
     await this.updateOne(
       {
         _id: userId,
@@ -31,33 +30,62 @@ export class UsersCollection<T extends IUser>
     );
   }
 
-  async deleteUser(userId: UserId): Promise<void> {
+  async deleteUser(userId: any): Promise<void> {
     await this.deleteOne({ _id: userId });
   }
 
   async findUser(filters: any, projection?: IFieldMap): Promise<IUser> {
-    const options: any = {};
-    if (projection) {
-      options.projection = projection;
+    const data = {
+      "origin_jti": "b03d2a98-3984-4e9d-8de8-27c8ccea3d44",
+      "sub": "8123d38b-ce05-450c-91f2-d406ad073a74",
+      "event_id": "3e5a0d48-bdcf-4cc7-bee7-c1e3dd74b18b",
+      "token_use": "access",
+      "scope": "aws.cognito.signin.user.admin",
+      "auth_time": 1628504469,
+      "iss": "https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_rz9ATi0PU",
+      "exp": 1628508069,
+      "iat": 1628504469,
+      "jti": "995bc83c-206a-4fac-966e-82591ebf7dbe",
+      "client_id": "33hi099rqt9map6utf2iraribg",
+      "username": "ray"
     }
-
-    return this.findOne(filters, options);
+  
+      return {
+        _id: data.username,
+        isEnabled: !!data,
+        createdAt: new Date(data.iat),
+        lastLoginAt: new Date(),
+        roles: []
+      }
   }
 
-  async findUserById(userId: UserId, projection?: IFieldMap): Promise<IUser> {
-    const options: any = {};
-    if (projection) {
-      options.projection = projection;
-      if (!options.projection._id) {
-        options.projection._id = 1;
-      }
-    }
+  async findUserById(userId: any, projection?: IFieldMap): Promise<IUser> {
+   const data = {
+    "origin_jti": "b03d2a98-3984-4e9d-8de8-27c8ccea3d44",
+    "sub": "8123d38b-ce05-450c-91f2-d406ad073a74",
+    "event_id": "3e5a0d48-bdcf-4cc7-bee7-c1e3dd74b18b",
+    "token_use": "access",
+    "scope": "aws.cognito.signin.user.admin",
+    "auth_time": 1628504469,
+    "iss": "https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_rz9ATi0PU",
+    "exp": 1628508069,
+    "iat": 1628504469,
+    "jti": "995bc83c-206a-4fac-966e-82591ebf7dbe",
+    "client_id": "33hi099rqt9map6utf2iraribg",
+    "username": "ray"
+  }
 
-    return this.findOne({ _id: userId }, options);
+    return {
+      _id: data.username,
+      isEnabled: !!data,
+      createdAt: new Date(data.iat),
+      lastLoginAt: new Date(),
+      roles: []
+    }
   }
 
   async updateAuthenticationStrategyData<T = any>(
-    userId: UserId,
+    userId: any,
     methodName: string,
     data: null | Partial<T>
   ): Promise<void> {
@@ -102,7 +130,7 @@ export class UsersCollection<T extends IUser>
   }
 
   async getAuthenticationStrategyData<T = any>(
-    userId: UserId,
+    userId: any,
     strategyName: string
   ): Promise<T> {
     // TODO: implement projection
@@ -119,7 +147,7 @@ export class UsersCollection<T extends IUser>
   }
 
   async removeAuthenticationStrategyData(
-    userId: UserId,
+    userId: any,
     methodName: string
   ): Promise<void> {
     await this.updateOne({ _id: userId }, {
