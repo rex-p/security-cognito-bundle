@@ -9,3 +9,12 @@ export const PERMISSIONS_COLLECTION_TOKEN = new Token(
 export const SESSIONS_COLLECTION_TOKEN = new Token(
   "SECURITY_MONGO_BUNDLE::SESSIONS_COLLECTION"
 );
+
+export const USER_POOL_ID = new Token(
+  "SECURITY_MONGO_BUNDLE::USER_POOL_ID"
+);
+
+export const POOL_REGION = new Token(
+  "SECURITY_MONGO_BUNDLE::POOL_REGION"
+);
+

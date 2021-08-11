@@ -45,7 +45,6 @@ export async function createEcosystem(
   return {
     container: kernel.container,
     cleanup: async () => {
-      await kernel.container.get(UsersCollection).deleteMany({});
       await kernel.container.get(PermissionsCollection).deleteMany({});
       await kernel.container.get(SessionsCollection).deleteMany({});
     },

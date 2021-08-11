@@ -18,6 +18,8 @@ import {
   USERS_COLLECTION_TOKEN,
   PERMISSIONS_COLLECTION_TOKEN,
   SESSIONS_COLLECTION_TOKEN,
+  USER_POOL_ID,
+  POOL_REGION
 } from "./constants";
 import { Collection, MongoBundle } from "@kaviar/mongo-bundle";
 
@@ -25,6 +27,8 @@ export interface ISecurityMongoBundleConfig {
   usersCollection?: Constructor<IUserPersistance>;
   permissionsCollection?: Constructor<IPermissionPersistance>;
   sessionsCollection?: Constructor<ISessionPersistance>;
+  userPoolId?: string;
+  poolRegion?: string;
 }
 
 export class SecurityMongoBundle extends Bundle<ISecurityMongoBundleConfig> {
@@ -34,6 +38,8 @@ export class SecurityMongoBundle extends Bundle<ISecurityMongoBundleConfig> {
     usersCollection: UsersCollection,
     permissionsCollection: PermissionsCollection,
     sessionsCollection: SessionsCollection,
+    userPoolId: '',
+    poolRegion: ''
   };
 
   async hook() {
@@ -79,9 +85,14 @@ export class SecurityMongoBundle extends Bundle<ISecurityMongoBundleConfig> {
       id: PERMISSIONS_COLLECTION_TOKEN,
       type: this.config.permissionsCollection,
     });
-    this.container.set({
-      id: SESSIONS_COLLECTION_TOKEN,
-      type: this.config.sessionsCollection,
-    });
+    this.container.set(
+      USER_POOL_ID,
+      this.config.userPoolId,
+    );
+    this.container.set(
+      POOL_REGION,
+      this.config.poolRegion,
+
+    );
   }
 }
