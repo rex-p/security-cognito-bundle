@@ -1,7 +1,7 @@
 import { MongoBundle, DatabaseService } from "@kaviar/mongo-bundle";
 import { SecurityBundle } from "@kaviar/security-bundle";
 import { ContainerInstance, Kernel, Bundle } from "@kaviar/core";
-import { SecurityMongoBundle } from "../SecurityMongoBundle";
+import { SecurityCognitoBundle } from "../SecurityMongoBundle";
 import { Mocks } from "@kaviar/security-bundle/dist/__tests__/reusable";
 import { UsersCollection } from "../collections/Users.collection";
 import { PermissionsCollection } from "../collections/Permissions.collection";
@@ -34,7 +34,7 @@ export async function createEcosystem(
       permissionTree: Mocks.PermissionTree,
     })
   );
-  kernel.addBundle(new SecurityMongoBundle());
+  kernel.addBundle(new SecurityCognitoBundle());
   kernel.addBundle(new AppBundle());
 
   await kernel.init();

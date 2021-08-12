@@ -1,11 +1,11 @@
 {
-  "name": "@kaviar/security-mongo-bundle",
+  "name": "@kaviar/security-cognito-bundle",
   "version": "1.0.8",
-  "description": "Persistance layer using MongoDB for KaviarJS Security",
+  "description": "Persistance layer using AWS Cognito for KaviarJS Security",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kaviarjs/security-mongo-bundle"
+    "url": "https://github.com/rex-p/security-mongo-bundle"
   },
   "scripts": {
     "compile": "tsc",

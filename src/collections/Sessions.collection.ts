@@ -9,7 +9,7 @@ import {
 import { Collection, ObjectID, Behaviors } from "@kaviar/mongo-bundle";
 const request = require('request');
 const jwkToPem = require('jwk-to-pem');
-const  jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 import { Inject, Token } from "@kaviar/core";
 import {
   USER_POOL_ID,
@@ -21,11 +21,11 @@ globalAny.fetch = require('node-fetch');
 
 
 export class SessionsCollection<T extends ISession>
-extends Collection<ISession>
-implements ISessionPersistance {
+  extends Collection<ISession>
+  implements ISessionPersistance {
   static collectionName = "sessions";
   userPoolId = this.container.get(USER_POOL_ID);
-  
+
   pool_region = this.container.get(POOL_REGION);
 
   static indexes = [
@@ -37,7 +37,7 @@ implements ISessionPersistance {
   ];
 
   validateJWT(token) {
-    console.log( 'sdfdf',this.userPoolId, this.pool_region );
+    console.log('sdfdf', this.userPoolId, this.pool_region);
 
     return new Promise((resolve, reject) => {
       request({
@@ -107,7 +107,13 @@ implements ISessionPersistance {
   }
 
   async getSession(token: string): Promise<ISession> {
-    let data: any = await this.validateJWT(token); // verify the token here instead
+    let data: any = null;
+    try {
+      data = await this.validateJWT(token);
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
     return {
       userId: token,
       expiresAt: new Date(data.exp),

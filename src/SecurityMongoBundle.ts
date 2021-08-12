@@ -23,7 +23,7 @@ import {
 } from "./constants";
 import { Collection, MongoBundle } from "@kaviar/mongo-bundle";
 
-export interface ISecurityMongoBundleConfig {
+export interface ISecurityCognitoBundleConfig {
   usersCollection?: Constructor<IUserPersistance>;
   permissionsCollection?: Constructor<IPermissionPersistance>;
   sessionsCollection?: Constructor<ISessionPersistance>;
@@ -31,7 +31,7 @@ export interface ISecurityMongoBundleConfig {
   poolRegion?: string;
 }
 
-export class SecurityMongoBundle extends Bundle<ISecurityMongoBundleConfig> {
+export class SecurityCognitoBundle extends Bundle<ISecurityCognitoBundleConfig> {
   dependencies = [SecurityBundle];
 
   protected defaultConfig = {
